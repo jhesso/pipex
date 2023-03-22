@@ -3,3 +3,5 @@
 pipex
 *obj
 *libft.a
+*example
+*.vscode
