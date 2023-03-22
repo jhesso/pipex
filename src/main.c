@@ -6,13 +6,13 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:40:59 by jhesso            #+#    #+#             */
-/*   Updated: 2023/03/22 03:04:29 by jhesso           ###   ########.fr       */
+/*   Updated: 2023/03/22 15:48:54 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-int	main(int ac, char **av)
+int	main(int ac, char **av, char** envp)
 {
 	if (ac < 5)
 		return (0);
