@@ -6,12 +6,45 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:40:59 by jhesso            #+#    #+#             */
-/*   Updated: 2023/05/25 14:29:31 by jhesso           ###   ########.fr       */
+/*   Updated: 2023/05/25 15:40:01 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
+/*	parent()
+*	waits for the children process to finish and fetches the status of the last
+*	child
+*	return the exit status code of the last child process.
+*/
+static int	parent(t_data *d)
+{
+	pid_t	wpid;
+	int		status;
+	int		exit_code;
+
+	close_fds(d);
+	d->child--;
+	exit_code = 1;
+	while (d->child >= 0)
+	{
+		wpid = waitpid(d->pids[d->child], &status, 0);
+		if (wpid == d->pids[d->nbr_cmd - 1])
+		{
+			if ((d->child == (d->nbr_cmd - 1)) && WIFEXITED(status))
+				exit_code = WEXITSTATUS(status);
+		}
+		d->child--;
+	}
+	free(d->pipe);
+	free(d->pids);
+	return(exit_code);
+}
+
+/*	creates a pipe and forks all child processes before calling the parent
+*	to wait for them to finish their tasks.
+*	returns the last child's exit code
+*/
 static int	pipex(t_data *d)
 {
 	int		exit_code;
@@ -25,7 +58,17 @@ static int	pipex(t_data *d)
 		if (!d->cmd_options)
 			exit_err(error_msg("unexpected error", "", 1), d);
 		d->cmd_path = get_cmd(d->cmd_options[0], d);
+		d->pids[d->child] = fork();
+		if (d->pids[d->child] == -1)
+			exit_err(error_msg("fork: ", strerror(errno), 1), d);
+		else if (d->pids[d->child] == 0)
+			child(d);
+		free_strs(d->cmd_path, d->cmd_options);
+		d->child++;
 	}
+	exit_code = parent(d);
+	if (d->heredoc == 1)
+		unlink(".heredoc.tmp");
 	return (exit_code);
 }
 
