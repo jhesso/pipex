@@ -6,11 +6,11 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:03:23 by jhesso            #+#    #+#             */
-/*   Updated: 2023/05/25 13:48:43 by jhesso           ###   ########.fr       */
+/*   Updated: 2023/05/31 15:58:40 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/pipex.h"
+#include "pipex.h"
 
 /*	init_data()
 *	initialize the data struct with default values

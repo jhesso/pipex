@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 12:33:30 by jhesso            #+#    #+#             */
-/*   Updated: 2023/05/25 13:00:04 by jhesso           ###   ########.fr       */
+/*   Updated: 2023/05/31 15:58:26 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	get_input_file(t_data *d)
 		get_heredoc(d);
 		d->fd_in = open(".heredoc.tmp", O_RDONLY);
 		if (d->fd_in == -1)
-			exit_err(err_msg("here_doc: ", strerror(errno), 1), d);
+			exit_err(error_msg("here_doc: ", strerror(errno), 1), d);
 	}
 	else
 	{
 		d->fd_in = open(d->av[1], O_RDONLY, 0644);
 		if (d->fd_in == -1)
-			err_msg("", strerror(errno), 1);
+			error_msg("", strerror(errno), 1);
 	}
 }
 
@@ -45,7 +45,7 @@ void	get_output_file(t_data *d)
 	else
 		d->fd_out = open(d->av[d->ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (d->fd_out == -1)
-		err_msg("", strerror(errno), 1);
+		error_msg("", strerror(errno), 1);
 }
 
 /*	get_heredoc()
@@ -62,7 +62,7 @@ void	get_heredoc(t_data *d)
 	tmp_fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	stdin_fd = dup(STDIN_FILENO);
 	if (tmp_fd == -1)
-		exit_err(err_msg("here_doc: ", strerror(errno), 1), d);
+		exit_err(error_msg("here_doc: ", strerror(errno), 1), d);
 	line = "";
 	while(1)
 	{

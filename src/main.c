@@ -6,11 +6,43 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:40:59 by jhesso            #+#    #+#             */
-/*   Updated: 2023/05/25 15:40:01 by jhesso           ###   ########.fr       */
+/*   Updated: 2023/05/31 15:56:01 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
+
+/*	redirect_io()
+*	redirects the input and output file descriptors by duplicating
+*	the given fds to the standard input and output respectively.
+*/
+static void	redirect_io(int input, int output, t_data *d)
+{
+	if (dup2(input, STDIN_FILENO) == -1)
+		exit_err(1, d);
+	if (dup2(output, STDOUT_FILENO) == -1)
+		exit_err(1, d);
+}
+
+/*	child()
+*	set the child processe's inputs and outputs depending on if its
+*	the first, middle or final child
+*	parse the command it needs to execute and execute it
+*/
+static void	child(t_data *d)
+{
+	if (d->child == 0)
+		redirect_io(d->fd_in, d->pipe[1], d);
+	else if (d->child == d->nbr_cmd - 1)
+		redirect_io(d->pipe[2 * d->child - 2], d->fd_out, d);
+	else
+		redirect_io(d->pipe[2 * d->child - 2], d->pipe[2 * d->child + 1], d);
+	close_fds(d);
+	if (d->cmd_options == NULL || d->cmd_path == NULL)
+		exit_err(1, d);
+	if (execve(d->cmd_path, d->cmd_options, d->envp) == -1)
+		exit_err(error_msg(d->cmd_options[0], strerror(errno), 1), d);
+}
 
 /*	parent()
 *	waits for the children process to finish and fetches the status of the last
@@ -63,7 +95,7 @@ static int	pipex(t_data *d)
 			exit_err(error_msg("fork: ", strerror(errno), 1), d);
 		else if (d->pids[d->child] == 0)
 			child(d);
-		free_strs(d->cmd_path, d->cmd_options);
+		free_strings(d->cmd_path, d->cmd_options);
 		d->child++;
 	}
 	exit_code = parent(d);

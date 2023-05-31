@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 18:47:38 by jhesso            #+#    #+#             */
-/*   Updated: 2023/05/25 14:21:21 by jhesso           ###   ########.fr       */
+/*   Updated: 2023/05/31 15:56:25 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static char	*get_cmd_path(char *cmd, char **env_paths)
 		}
 		if (access(cmd_path, F_OK | X_OK) == 0)
 			return (cmd_path);
-		free_strs(cmd_path, NULL);
+		free_strings(cmd_path, NULL);
 		i++;
 	}
 	return (NULL);

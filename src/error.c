@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 18:13:13 by jhesso            #+#    #+#             */
-/*   Updated: 2023/05/25 12:39:33 by jhesso           ###   ########.fr       */
+/*   Updated: 2023/05/31 15:56:59 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 int	error_msg(char *msg, char *errno_str, int erno)
 {
 	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putstr_fd(errno_str, STDERR_FILENO);
 	return (erno);
 }
 
@@ -28,6 +29,17 @@ int	error_msg(char *msg, char *errno_str, int erno)
 */
 void	exit_err(int error_code, t_data *data)
 {
-	//TODO add freeing and fd closing whenever they are added to the program
+	if (data)
+	{
+		close_fds(data);
+		if (data->pipe != NULL)
+			free(data->pipe);
+		if (data->pids != NULL)
+			free(data->pids);
+		if (data->cmd_options != NULL || data->cmd_path != NULL)
+			free_strings(data->cmd_path, data->cmd_options);
+	}
+	if (data->heredoc == 1)
+		unlink(".heredoc.tmp");
 	exit(error_code);
 }
