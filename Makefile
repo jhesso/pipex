@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/05/24 14:48:21 by jhesso            #+#    #+#              #
-#    Updated: 2023/05/31 15:57:46 by jhesso           ###   ########.fr        #
+#    Created: 2023/05/31 16:36:04 by jhesso            #+#    #+#              #
+#    Updated: 2023/06/01 15:09:59 by jhesso           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LIBFT		=	libft.a
 LIBFT_DIR	=	libft/
 SRC_PATH	=	src/
 OBJ_PATH	=	obj/
-SRC			=	main.c path.c error.c debug.c file.c init.c utils.c
+SRC			=	error.c file.c init.c pipex.c utils.c debug.c path.c
 SRCS		=	$(addprefix $(SRC_PATH), $(SRC))
 OBJ			=	$(SRC:.c=.o)
 OBJS		=	$(addprefix $(OBJ_PATH), $(OBJ))

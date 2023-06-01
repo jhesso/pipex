@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/24 18:47:38 by jhesso            #+#    #+#             */
-/*   Updated: 2023/05/31 15:56:25 by jhesso           ###   ########.fr       */
+/*   Created: 2023/06/01 15:06:08 by jhesso            #+#    #+#             */
+/*   Updated: 2023/06/01 15:06:47 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static char	*get_cmd_path(char *cmd, char **env_paths)
 		if (!cmd_path)
 		{
 			free_strings(NULL, env_paths);
-			exit_err(error_msg("unexpected error", "", 1), NULL);
+			exit_err(error_msg("unexpected error", "", "", 1), NULL);
 		}
 		if (access(cmd_path, F_OK | X_OK) == 0)
 			return (cmd_path);
@@ -123,7 +123,7 @@ char	*get_cmd(char *cmd, t_data *d)
 		return (NULL);
 	cmd_path = get_cmd_path(cmd, env_paths);
 	if (!cmd_path)
-		error_msg("command not found: ", d->av[d->child + 2], 1);
+		error_msg("command not found: ", "", d->av[d->child + 2], 1);
 	free_strings(NULL, env_paths);
 	return (cmd_path);
 }

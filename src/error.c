@@ -5,21 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/24 18:13:13 by jhesso            #+#    #+#             */
-/*   Updated: 2023/05/31 15:56:59 by jhesso           ###   ########.fr       */
+/*   Created: 2023/05/31 16:44:14 by jhesso            #+#    #+#             */
+/*   Updated: 2023/06/01 13:36:46 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "pipex.h"
 
 /*	error_msg()
 *	prints an error message on the STDERR.
 *	returns the error code
 */
-int	error_msg(char *msg, char *errno_str, int erno)
+int	error_msg(char *msg, char *msg2, char *errno_str, int erno)
 {
 	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putstr_fd(msg2, STDERR_FILENO);
 	ft_putstr_fd(errno_str, STDERR_FILENO);
+	ft_putchar_fd('\n', STDERR_FILENO);
 	return (erno);
 }
 

@@ -5,39 +5,39 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/24 15:03:23 by jhesso            #+#    #+#             */
-/*   Updated: 2023/05/31 15:58:40 by jhesso           ###   ########.fr       */
+/*   Created: 2023/06/01 13:09:31 by jhesso            #+#    #+#             */
+/*   Updated: 2023/06/01 14:58:40 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-/*	init_data()
-*	initialize the data struct with default values
+/*	clean_init()
+*	set default values to our data structure
 */
-static t_data	init_data(void)
+static t_data	clean_init(void)
 {
-	t_data	data;
+	t_data	d;
 
-	data.envp = NULL;
-	data.av = NULL;
-	data.ac = -1;
-	data.heredoc = -1;
-	data.fd_in = -1;
-	data.fd_out = -1;
-	data.pipe = NULL;
-	data.nbr_cmd = -1;
-	data.child = -1;
-	data.pids = NULL;
-	data.cmd_options = NULL;
-	data.cmd_path = NULL;
-	return (data);
+	d.envp = NULL;
+	d.av = NULL;
+	d.ac = -1;
+	d.heredoc = 0;
+	d.fd_in = -1;
+	d.fd_out = -1;
+	d.pipe = NULL;
+	d.nbr_cmd = -1;
+	d.child = -1;
+	d.pids = NULL;
+	d.cmd_options = NULL;
+	d.cmd_path = NULL;
+	return (d);
 }
 
-/*	gen_pipes()
-*	generate a pipe for each command.
+/*	generate_pipes
+*generate a pipe for each command
 */
-static void	gen_pipes(t_data *data)
+static void	generate_pipes(t_data *data)
 {
 	int	i;
 
@@ -45,22 +45,22 @@ static void	gen_pipes(t_data *data)
 	while (i < data->nbr_cmd - 1)
 	{
 		if (pipe(data->pipe + 2 * i) == -1)
-			exit_err(error_msg("Could not create pipe", "", 1), data);
+			exit_err(error_msg("Couldn't create pipe", "", "", 1), data);
 		i++;
 	}
 }
 
 /*	init()
-*	initialize a new data struct to hold pipex info.
+*	initialize a new data struct to hold pipex info
 */
 t_data	init(int ac, char **av, char **envp)
 {
 	t_data	data;
 
-	data = init_data();
-	data.envp = envp;
+	data = clean_init();
 	data.ac = ac;
 	data.av = av;
+	data.envp = envp;
 	if (!ft_strncmp("here_doc", av[1], 9))
 		data.heredoc = 1;
 	get_input_file(&data);
@@ -68,7 +68,10 @@ t_data	init(int ac, char **av, char **envp)
 	data.nbr_cmd = ac - 3 - data.heredoc;
 	data.pids = malloc(sizeof * data.pids * data.nbr_cmd);
 	if (!data.pids)
-		exit_err(error_msg("PID error", strerror(errno), 1), &data);
-	gen_pipes(&data);
+		exit_err(error_msg("PID error", "", strerror(errno), 1), &data);
+	data.pipe = malloc(sizeof * data.pipe * 2 * (data.nbr_cmd - 1));
+	if (!data.pipe)
+		exit_err(error_msg("pipe error", "", strerror(errno), 1), &data);
+	generate_pipes(&data);
 	return (data);
 }

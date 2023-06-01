@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/21 20:43:32 by jhesso            #+#    #+#             */
-/*   Updated: 2023/05/31 15:55:31 by jhesso           ###   ########.fr       */
+/*   Created: 2023/05/31 16:36:48 by jhesso            #+#    #+#             */
+/*   Updated: 2023/06/01 15:10:36 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,18 @@ typedef struct s_data
 	char	*cmd_path;
 }			t_data;
 
-/* path.c */
+int		error_msg(char *msg, char *msg2, char *errno_str, int erno);
+t_data	init(int ac, char **av, char **envp);
+void	free_strings(char *str, char **strs);
+void	close_fds(t_data *data);
+void	get_heredoc(t_data *d);
+void	exit_err(int error_code, t_data *data);
+void	get_input_file(t_data *d);
+void	get_output_file(t_data *d);
 char	**get_path(char **envp);
 char	*get_cmd(char *cmd, t_data *d);
 
-/* init.c */
-t_data	init(int ac, char **av, char **envp);
-
-/* file.c */
-void	get_input_file(t_data *d);
-void	get_output_file(t_data *d);
-void	get_heredoc(t_data *d);
-
-/* error.c */
-int		error_msg(char *msg, char *errno_str, int erno);
-void	exit_err(int error_code, t_data *data);
-
-/* debug.c */
-void	debug_print_arr(char **arr);
-
-/* utils.c */
-void	close_fds(t_data *data);
-void	free_strings(char *str, char **strs);
+/* debug */
+void	debug_print_data(t_data data);
 
 #endif
