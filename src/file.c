@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:23:47 by jhesso            #+#    #+#             */
-/*   Updated: 2023/06/01 13:39:47 by jhesso           ###   ########.fr       */
+/*   Updated: 2023/06/01 15:47:11 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ void	get_heredoc(t_data *d)
 	if (tmp_fd == -1)
 		exit_err(error_msg("here_doc: ", "", strerror(errno), 1), d);
 	line = "";
-	while(1)
+	while (1)
 	{
 		ft_putstr_fd("here_doc > ", 1);
 		line = get_next_line(stdin_fd);
 		if (line == NULL)
 			break ;
-		if (ft_strlen(d->av[2]) + 1 == ft_strlen(line) &&\
+		if (ft_strlen(d->av[2]) + 1 == ft_strlen(line) && \
 			!ft_strncmp(line, d->av[2], ft_strlen(d->av[2] + 1)))
 			close(stdin_fd);
 		else

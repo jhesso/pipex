@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:38:22 by jhesso            #+#    #+#             */
-/*   Updated: 2023/06/01 15:11:17 by jhesso           ###   ########.fr       */
+/*   Updated: 2023/06/01 15:47:30 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	parent(t_data *d)
 	}
 	free(d->pipe);
 	free(d->pids);
-	return(exit_code);
+	return (exit_code);
 }
 
 /*	creates a pipe and forks all child processes before calling the parent
