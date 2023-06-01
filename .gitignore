@@ -1,5 +1,8 @@
 *a.out
-*file*
 pipex
 *obj
 *libft.a
+*example
+*.vscode
+file2
+output
