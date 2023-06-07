@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:09:31 by jhesso            #+#    #+#             */
-/*   Updated: 2023/06/01 14:58:40 by jhesso           ###   ########.fr       */
+/*   Updated: 2023/06/07 20:29:18 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ t_data	init(int ac, char **av, char **envp)
 	get_input_file(&data);
 	get_output_file(&data);
 	data.nbr_cmd = ac - 3 - data.heredoc;
-	data.pids = malloc(sizeof * data.pids * data.nbr_cmd);
+	data.pids = malloc(sizeof(int) * data.nbr_cmd);
 	if (!data.pids)
 		exit_err(error_msg("PID error", "", strerror(errno), 1), &data);
-	data.pipe = malloc(sizeof * data.pipe * 2 * (data.nbr_cmd - 1));
+	data.pipe = malloc(sizeof(int) * 2 * (data.nbr_cmd - 1));
 	if (!data.pipe)
 		exit_err(error_msg("pipe error", "", strerror(errno), 1), &data);
 	generate_pipes(&data);
