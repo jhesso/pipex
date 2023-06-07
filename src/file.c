@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:23:47 by jhesso            #+#    #+#             */
-/*   Updated: 2023/06/01 15:47:11 by jhesso           ###   ########.fr       */
+/*   Updated: 2023/06/07 17:49:09 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	get_input_file(t_data *d)
 	if (d->heredoc == 1)
 	{
 		get_heredoc(d);
-		d->fd_in = open(".heredoc.tmp", O_RDONLY);
+		d->fd_in = open(".heredoc.tmp", O_RDONLY, 0644);
 		if (d->fd_in == -1)
 			exit_err(error_msg("here_doc: ", "", strerror(errno), 1), d);
 	}
@@ -36,12 +36,12 @@ void	get_input_file(t_data *d)
 
 /*	get_output_file()
 *	Open/create the output file. If here_doc is specified
-*	the output file will be appende, otherwise, it will be overwritten
+*	the output file will be appended, otherwise, it will be overwritten
 */
 void	get_output_file(t_data *d)
 {
 	if (d->heredoc == 1)
-		d->fd_out = open(d->av[d->ac - 1], O_RDONLY | O_CREAT | O_APPEND, 0644);
+		d->fd_out = open(d->av[d->ac - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 		d->fd_out = open(d->av[d->ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (d->fd_out == -1)
