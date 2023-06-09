@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:23:47 by jhesso            #+#    #+#             */
-/*   Updated: 2023/06/07 18:16:44 by jhesso           ###   ########.fr       */
+/*   Updated: 2023/06/09 14:31:22 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,12 @@ void	get_heredoc(t_data *d)
 			break ;
 		if (ft_strlen(d->av[2]) + 1 == ft_strlen(line) && \
 			!ft_strncmp(line, d->av[2], ft_strlen(d->av[2] + 1)))
-			close(stdin_fd);
+			break;
 		ft_putstr_fd(line, tmp_fd);
 		free(line);
 	}
+	if (line)
+		free(line);
+	close(stdin_fd);
 	close(tmp_fd);
 }
